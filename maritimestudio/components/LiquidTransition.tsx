@@ -23,6 +23,12 @@ const drain = (p: number) => {
   return `M0 0 L0 ${y.toFixed(2)} C 28 ${(y - b).toFixed(2)} 72 ${(y - b).toFixed(2)} 100 ${y.toFixed(2)} L100 0 Z`;
 };
 
+// Static hosts that cannot serve Next's client-side route payloads (e.g. a
+// preview under a sub-path) set NEXT_PUBLIC_HARD_NAV=1: links then do a full
+// page load behind the wave, and the next page drains it away.
+const HARD_NAV = process.env.NEXT_PUBLIC_HARD_NAV === '1';
+const VEIL_KEY = 'ms-veil';
+
 function routableUrl(a: HTMLAnchorElement | null, e?: MouseEvent): URL | null {
   if (!a) return null;
   if (e && (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return null;
@@ -94,6 +100,17 @@ export function LiquidTransition() {
       e.stopPropagation();
       if (busy.current) return;
       busy.current = true;
+      if (HARD_NAV) {
+        veilIn().then(() => {
+          try {
+            sessionStorage.setItem(VEIL_KEY, '1');
+          } catch {
+            /* storage blocked */
+          }
+          window.location.href = a!.href;
+        });
+        return;
+      }
       const target = url.pathname + url.search + url.hash;
       veilIn().then(() => {
         const arrived = new Promise<void>((resolve) => {
@@ -110,7 +127,7 @@ export function LiquidTransition() {
     const onIntent = (e: Event) => {
       const a = (e.target as HTMLElement).closest?.('a[href]') as HTMLAnchorElement | null;
       const url = routableUrl(a);
-      if (url && url.pathname !== location.pathname) router.prefetch(url.pathname);
+      if (!HARD_NAV && url && url.pathname !== location.pathname) router.prefetch(url.pathname);
     };
     document.addEventListener('click', onClick, true);
     document.addEventListener('pointerover', onIntent, { passive: true });
@@ -126,6 +143,19 @@ export function LiquidTransition() {
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
+      let arrivedUnderVeil = false;
+      try {
+        arrivedUnderVeil = sessionStorage.getItem(VEIL_KEY) === '1';
+        sessionStorage.removeItem(VEIL_KEY);
+      } catch {
+        /* storage blocked */
+      }
+      if (arrivedUnderVeil && !prefersReduced()) {
+        svgRef.current?.classList.add('is-active');
+        aRef.current?.setAttribute('d', rise(1));
+        bRef.current?.setAttribute('d', rise(1));
+        requestAnimationFrame(() => veilOut());
+      }
       return;
     }
     const hash = pending.current?.hash ?? location.hash;
