@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /blog-editor/
+Sitemap: https://maritimestudio.no/sitemap.xml

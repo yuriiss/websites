@@ -1,0 +1,72 @@
+<section class="page-hero">
+  {{ocean-soft}}
+  <div class="container">
+    <span class="eyebrow">Get in Touch</span>
+    <h1 class="h1"><span class="split-line"><span>Let's Start a</span></span><span class="split-line"><span><em>Conversation</em></span></span></h1>
+    <p class="lead" data-reveal style="--d:.4s">Ready to transform your maritime operations? Tell us about your project and we'll respond within 24 hours.</p>
+  </div>
+</section>
+
+<section class="section section--tight" style="padding-top:0" aria-label="Contact">
+  <div class="container split split--form">
+    <form class="glass glass--flat form" data-form="contact" data-subject="Consultation request — Maritime.Studio website" data-success="Thank you — your inquiry is on its way. We'll respond within 24 hours." data-reveal>
+      <h2 class="h3">Request a Consultation</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label for="c-name">Full Name *</label>
+          <input id="c-name" name="name" type="text" autocomplete="name" placeholder="Captain John Smith" required>
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+        <div class="field">
+          <label for="c-email">Email *</label>
+          <input id="c-email" name="email" type="email" autocomplete="email" placeholder="john@example.com" required>
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+        <div class="field">
+          <label for="c-company">Company</label>
+          <input id="c-company" name="company" type="text" autocomplete="organization" placeholder="Your Organization">
+        </div>
+        <div class="field">
+          <label for="c-phone">Phone</label>
+          <input id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder="+44 (0) 20 7123 4567">
+        </div>
+        <div class="field field--full">
+          <label for="c-service">Service Interest</label>
+          <select id="c-service" name="service">
+            <option value="">Select a service area</option>
+            <option>Training &amp; Education</option>
+            <option>Immersive Technology</option>
+            <option>Digital Presence &amp; Development</option>
+            <option>Consulting Services</option>
+            <option>Multiple Services</option>
+            <option>Not Sure Yet</option>
+          </select>
+        </div>
+        <div class="field field--full">
+          <label for="c-message">Tell Us About Your Project *</label>
+          <textarea id="c-message" name="message" placeholder="Describe your project requirements, goals, and any specific challenges you're facing..." required></textarea>
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+      </div>
+      <button class="btn btn--primary btn--block" type="submit">Send Inquiry {{icon:arrow}}</button>
+      <p class="form-status" role="status" tabindex="-1"></p>
+    </form>
+
+    <div class="sticky-col" data-stagger="0.1">
+      <div class="glass glass--flat" data-reveal>
+        <h2 class="h3">Contact Information</h2>
+        <ul class="info-list">
+          <li><span class="icon-bubble">{{icon:mail}}</span><div><span>Email</span><a href="mailto:info@maritime.studio">info@maritime.studio</a></div></li>
+          <li><span class="icon-bubble">{{icon:phone}}</span><div><span>Phone</span>—</div></li>
+          <li><span class="icon-bubble">{{icon:pin}}</span><div><span>Location</span>Norway</div></li>
+          <li><span class="icon-bubble icon-bubble--warm">{{icon:clock}}</span><div><span>Response Time</span>Within 24 hours</div></li>
+        </ul>
+      </div>
+      <div class="glass glass--flat" data-reveal style="background:linear-gradient(150deg,rgba(10,65,116,.6),rgba(25,51,71,.45));border-color:rgba(123,189,232,.3)">
+        <h2 class="h3">Prefer a Quick Call?</h2>
+        <p>Schedule a 30-minute discovery call to discuss your project needs and explore how Maritime.Studio can help.</p>
+        <a class="btn btn--sand" href="mailto:info@maritime.studio?subject=Schedule%20a%2030-minute%20discovery%20call">Schedule a Call {{icon:arrow}}</a>
+      </div>
+    </div>
+  </div>
+</section>
