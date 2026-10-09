@@ -1,84 +1,70 @@
-# Maritime.Studio — Liquid UI redesign
+# Maritime.Studio — Liquid UI
 
-A complete redesign of [maritimestudio.no](https://maritimestudio.no): every page, the full
-558‑term glossary and both campaign landing pages, rebuilt as a fast static site
-(HTML + CSS + vanilla JS, no framework, no build step needed to run it).
+Redesign of [maritimestudio.no](https://maritimestudio.no): every page, the 558‑term glossary
+and both campaign landing pages.
 
-## Run it
+**Stack:** Next.js 15 (App Router, static export) · React 19 · TypeScript · React Three Fiber
+(three.js) · GSAP + ScrollTrigger + Flip · Lenis.
 
-The finished site is in `site/`. Serve that folder with any static server:
-
-```bash
-cd site
-python3 -m http.server 8080
-# open http://localhost:8080
-```
-
-Opening `site/index.html` directly from disk also works (links are rewritten to
-`index.html`), but liquid page transitions need `http://`, so a local server is recommended.
-
-Deploy: upload the contents of `site/` to any static host (Netlify, Vercel, Cloudflare
-Pages, GitHub Pages, nginx). Every page is a folder with `index.html`, so the URLs match
-the current site: `/services/`, `/glossary/cybersecurity/`, `/campaign/mcsa-training-2026/`…
-`404.html` is used by most hosts automatically.
-
-## Edit it
-
-Page content lives in `src/pages/*.html`; glossary terms in `src/data/glossary.json`;
-articles, page titles and meta descriptions in `build.py`. After editing, rebuild:
+## Run
 
 ```bash
-python3 build.py   # Python 3.8+, no dependencies
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-`site/assets/css/main.css` and `site/assets/js/main.js` are edited directly.
+Production build:
 
-## What's inside
+```bash
+npm run build      # writes a static site to out/
+npm start          # serves out/ on http://localhost:3000
+```
 
-| Path | Page |
-| --- | --- |
-| `/` | Home |
-| `/services/` | 15 services in 6 blocks (+ Maritime.LMS) |
-| `/about/` | Mission, vision, values |
-| `/case-studies/` | 4 case studies with filters |
-| `/rnd/` | Maritime AI competency |
-| `/resources/` | Articles with filters |
-| `/blog-post/?post=…` | Article view (falls back to the list) |
-| `/blog-editor/` | Admin-only placeholder (as on the current site, `noindex`) |
-| `/contact/` | Consultation form |
-| `/glossary/` + 8 categories | 558 terms, live search, A–Z jump bar, deep links `#term-id` |
-| `/campaign/mcsa-ms-lm/` | Maritime Cyber Security Awareness course |
-| `/campaign/mcsa-training-2026/` | Cybersecurity Training 2026 programme + brochure form |
+`out/` is plain HTML/CSS/JS: deploy it to Vercel, Netlify, Cloudflare Pages, GitHub Pages or any
+web server. On Vercel you can also deploy the repo directly (framework preset: Next.js, root
+directory: `maritimestudio`). URLs match the current site: `/services/`,
+`/glossary/cybersecurity/`, `/campaign/mcsa-training-2026/`…
 
-## Liquid UI — how the motion works
+`npm run typecheck` runs the TypeScript compiler.
 
-- **Page transitions**: internal links are fetched and only `<main>` is swapped, behind a
-  two-layer SVG wave that rises and drains. History, back/forward, deep links, focus and
-  screen-reader announcements are handled; any failure falls back to normal navigation.
-- **Ocean hero**: a small WebGL shader (domain-warped noise in the palette) that ripples
-  under the pointer, renders at ~half resolution and pauses off-screen / in background tabs.
-  Without WebGL a CSS gradient is shown.
-- **Reveal, counters, gauge, liquid nav pill, pointer light on cards, magnetic buttons,
-  morphing icon bubbles.**
-- **Accessibility**: `prefers-reduced-motion` turns all of this into instant, static states;
-  a **Calm mode** toggle in the footer does the same for anyone who wants it (remembered per
-  browser). Skip link, visible focus, real buttons/labels, `aria-current`, `aria-expanded`,
-  keyboard-operable menus, AA contrast on the dark palette.
+## Structure
+
+```
+app/                     routes (one page.tsx per URL), layout, globals.css, sitemap, robots
+  glossary/[category]/   8 glossary categories, generated from data/glossary.json
+  blog-post/[slug]/      article pages, generated from lib/site.ts
+components/
+  Header, Footer, Brand, Icon         shared chrome
+  OceanScene / Ocean                  R3F shader sea behind every hero (loaded client-side only)
+  LiquidTransition                    GSAP wave between pages (App Router)
+  SmoothScroll                        Lenis, synced to GSAP's ticker and ScrollTrigger
+  Effects                             GSAP reveals, split headlines, counters, gauge, parallax,
+                                      tilt, magnetic buttons, pointer light
+  FilterGrid                          chips + GSAP Flip re-layout (case studies, articles)
+  GlossarySearch                      live search for the hub and category pages
+  ValidatedForm                       contact & brochure forms
+  ServiceIndex, Cta, CalmToggle, ResourcesParts, ArticleGrid
+lib/      site data (nav, articles), glossary helpers, motion & scroll helpers
+data/     glossary.json (558 terms)
+```
+
+## Motion and accessibility
+
+- `prefers-reduced-motion` and the footer's **Calm mode** switch turn off Lenis, page waves,
+  parallax and reveal animations; the sea renders as one still frame.
+- Skip link, visible focus, real buttons and labels, `aria-current`, `aria-expanded`, keyboard
+  menus, focus moves to the new page's heading after each route change.
 
 ## Forms
 
-There is no backend in a static site. By default the contact and brochure forms validate
-and then open the visitor's email app with the message pre-filled to `info@maritime.studio`.
-To post to a form service (Formspree, Basin, Netlify Forms, your own API) add
-`data-endpoint="https://…"` to the `<form>` in `src/pages/contact.html` /
-`src/pages/mcsa-training-2026.html` and rebuild.
+The site is a static export, so there is no backend. By default the contact and brochure forms
+validate, then open the visitor's email app with the message filled in. To send to a form
+service, pass `endpoint="https://…"` to `<ValidatedForm>` in `app/contact/page.tsx` and
+`app/campaign/mcsa-training-2026/page.tsx`.
 
 ## To replace
 
-- **Logo**: the header/footer mark is an SVG redraw of the current logo (sail + waves) in the new
-  palette — swap `BRAND_MARK` in `build.py` for the final artwork.
-- **Brochure PDFs**: the current site generates them in its app; here the buttons send an email
-  request. Put the PDFs in `site/assets/docs/` and point the links at them.
-- **Phone number** on Contact is empty on the current site too (shown as "—").
-- **Privacy Policy / Terms** link to `#`, as on the current site.
-- **"Explore Maritime.LMS"** links to Contact (no LMS URL on the current site).
+- Logo: `components/Brand.tsx` is an SVG redraw of the current mark in the new palette.
+- Brochure PDFs: buttons currently request the brochure by email; put PDFs in `public/` and link them.
+- Phone number (empty on the current site), Privacy Policy / Terms (link to `#` as now),
+  "Explore Maritime.LMS" (links to Contact).
