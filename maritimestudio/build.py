@@ -256,44 +256,45 @@ def header(r):
 
 
 def footer(r):
+    col = lambda title, items: (f'<div class="footer-col"><h2>{title}</h2><ul>' + "".join(
+        f'<li><a href="{r}{h}">{t}</a></li>' for h, t in items) + '</ul></div>')
     return f'''<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-col">
+  <div class="footer-swell" aria-hidden="true"><svg viewBox="0 0 2880 120" preserveAspectRatio="none"><path class="s1" d="M0 70C240 30 480 110 720 70s480-40 720 0 480 40 720 0 480-40 720 0V120H0z"/><path class="s2" d="M0 86C240 56 480 116 720 86s480-30 720 0 480 30 720 0 480-30 720 0V120H0z"/></svg></div>
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
         {brand(r)}
         <p>Bridging the maritime industry with cutting-edge digital solutions. Your trusted partner for training, technology, and transformation.</p>
+        <div class="btn-row"><a class="btn btn--primary btn--sm" href="{r}contact/">Book Consultation {icon("arrow")}</a></div>
+      </div>
+      <div class="footer-reach">
+        <span class="eyebrow">Get in touch</span>
+        <a class="footer-mail" href="mailto:info@maritime.studio">info@maritime.studio</a>
+        <ul class="footer-facts">
+          <li>{icon("pin")}Ålesund, Norway</li>
+          <li>{icon("clock")}Response within 24 hours</li>
+        </ul>
         <div class="socials">
           <a href="https://www.linkedin.com/company/maritime-studio" target="_blank" rel="noopener" aria-label="Maritime.Studio on LinkedIn">{icon("linkedin")}</a>
           <a href="https://www.facebook.com/maritimstudio/" target="_blank" rel="noopener" aria-label="Maritime.Studio on Facebook">{icon("facebook")}</a>
           <a href="https://www.youtube.com/@MaritimeStudio" target="_blank" rel="noopener" aria-label="Maritime.Studio on YouTube">{icon("youtube")}</a>
         </div>
       </div>
-      <div class="footer-col">
-        <h2>Services</h2>
-        <a href="{r}services/#training">Training &amp; Education</a>
-        <a href="{r}services/#immersive">Immersive Technology</a>
-        <a href="{r}services/#digital">Digital Presence</a>
-        <a href="{r}services/#consulting">Consulting</a>
-      </div>
-      <div class="footer-col">
-        <h2>Company</h2>
-        <a href="{r}about/">About Us</a>
-        <a href="{r}case-studies/">Case Studies</a>
-        <a href="{r}resources/">Resources</a>
-        <a href="{r}contact/">Contact</a>
-      </div>
-      <div class="footer-col">
-        <h2>Get in touch</h2>
-        <a class="footer-contact" href="mailto:info@maritime.studio">{icon("mail")}info@maritime.studio</a>
-        <span class="footer-contact">{icon("pin")}Norway</span>
-        <button class="calm-toggle" type="button" data-calm-toggle aria-pressed="false">{icon("wave")}<span data-calm-label>Calm mode: off</span></button>
-      </div>
     </div>
+    <nav class="footer-links" aria-label="Footer">
+      {col("Services", [("services/#training", "Training &amp; Education"), ("services/#immersive", "Immersive Technology"), ("services/#digital", "Digital Presence"), ("services/#consulting", "Consulting")])}
+      {col("Company", [("about/", "About Us"), ("case-studies/", "Case Studies"), ("rnd/", "R&amp;D"), ("contact/", "Contact")])}
+      {col("Resources", [("resources/", "Articles &amp; Insights"), ("glossary/", "Maritime Glossary")])}
+      {col("Campaign", [("campaign/mcsa-ms-lm/", "Cyber Security Awareness"), ("campaign/mcsa-training-2026/", "Cybersecurity Training 2026")])}
+    </nav>
     <div class="footer-bottom">
       <span>© <span data-year>2026</span> Maritime.Studio. All rights reserved.</span>
-      <nav aria-label="Legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></nav>
+      <div class="footer-bottom-right">
+        <button class="calm-toggle" type="button" data-calm-toggle aria-pressed="false"><span class="calm-track" aria-hidden="true"><span class="calm-knob"></span></span>Calm mode</button>
+        <nav aria-label="Legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></nav>
+      </div>
     </div>
-    <div class="footer-word" aria-hidden="true">Maritime.Studio</div>
   </div>
 </footer>'''
 
