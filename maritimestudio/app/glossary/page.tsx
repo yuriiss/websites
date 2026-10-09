@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { HubSearch, type HubEntry } from '@/components/GlossarySearch';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 import { CARD_COPY, CARD_ICON, CATEGORIES, TOTAL_TERMS } from '@/lib/glossary';
 import { GlossaryCta } from './GlossaryCta';
 
@@ -20,7 +19,6 @@ export default function GlossaryHub() {
   return (
     <>
       <section className="page-hero">
-        <Ocean soft intensity={0.9} />
         <div className="container">
           <span className="eyebrow">Maritime Glossary · {TOTAL_TERMS} terms</span>
           <h1 className="h1">

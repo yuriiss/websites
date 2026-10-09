@@ -1381,3 +1381,61 @@ main h1[tabindex="-1"]:focus, main[tabindex="-1"]:focus { outline: none; }
 .filter-cell > * { flex: 1; min-width: 0; }
 .link-back svg { transform: rotate(180deg); }
 .link-back:hover svg { transform: rotate(180deg) translateX(4px); }
+
+/* =====================================================================
+   Three.js layer: one fixed scene behind the whole site
+   ===================================================================== */
+.experience {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2.4s var(--ease-flow);
+}
+.experience.is-ready { opacity: 1; }
+.experience canvas { display: block; }
+
+main, .site-footer { position: relative; z-index: 1; }
+
+/* Let the sea show through: sections become veils of water, not walls */
+.section--tint { background: linear-gradient(180deg, rgba(10, 35, 56, 0) 0%, rgba(10, 35, 56, 0.55) 18%, rgba(10, 35, 56, 0.55) 82%, rgba(10, 35, 56, 0) 100%); }
+.section--fade { background: transparent; }
+.mosaic { background: rgba(183, 199, 214, 0.12); }
+.mosaic > * { background: rgba(6, 28, 44, 0.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.mosaic > *:hover { background: rgba(10, 40, 62, 0.82); }
+.mosaic--tint > * { background: rgba(10, 35, 56, 0.72); }
+.glass { -webkit-backdrop-filter: blur(14px) saturate(130%); backdrop-filter: blur(14px) saturate(130%); }
+.term { background: rgba(6, 28, 44, 0.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.wave-edge, .footer-swell { display: none; }
+.site-footer { background: linear-gradient(180deg, rgba(4, 20, 31, 0) 0%, rgba(4, 20, 31, 0.82) 22%, rgba(4, 20, 31, 0.96) 100%); }
+.cta { background: linear-gradient(135deg, rgba(10, 65, 116, 0.82) 0%, rgba(25, 51, 71, 0.78) 55%, rgba(51, 75, 96, 0.75) 100%); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+
+/* Legibility over the moving sea */
+.hero, .page-hero { text-shadow: 0 2px 28px rgba(4, 20, 31, 0.55); }
+.hero .lead, .page-hero .lead { color: #d3e0ea; }
+.hero-grid--solo { grid-template-columns: minmax(0, 0.62fr) minmax(0, 0.38fr); }
+.hero-grid--solo .hero-copy .display { max-width: 11ch; }
+.hero { min-height: 100svh; }
+.hero::after {
+  /* soft shade on the reading side only */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(70% 90% at 15% 55%, rgba(4, 20, 31, 0.55), transparent 70%);
+  pointer-events: none;
+}
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(4, 20, 31, 0.6), rgba(4, 20, 31, 0.15) 60%, transparent);
+  pointer-events: none;
+}
+@media (max-width: 960px) {
+  .hero-grid--solo { grid-template-columns: minmax(0, 1fr); }
+  .hero { align-items: flex-end; }
+  .hero::after { background: linear-gradient(180deg, transparent 20%, rgba(4, 20, 31, 0.7) 75%); }
+}

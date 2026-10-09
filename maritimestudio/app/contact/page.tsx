@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 import { ValidatedForm } from '@/components/ValidatedForm';
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export default function ContactPage() {
   return (
     <>
       <section className="page-hero">
-        <Ocean soft />
         <div className="container">
           <span className="eyebrow">Get in Touch</span>
           <h1 className="h1"><span className="split-line"><span>Let's Start a</span></span><span className="split-line"><span><em>Conversation</em></span></span></h1>

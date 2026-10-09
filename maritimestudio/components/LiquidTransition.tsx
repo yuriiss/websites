@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { prefersReduced } from '@/lib/motion';
 import { getLenis, scrollToTarget } from '@/lib/scroll';
+import { setSplash } from '@/lib/experience';
 
 // Liquid page transitions for the App Router.
 // Internal link clicks are caught in the capture phase, a two-layer SVG wave
@@ -57,11 +58,13 @@ export function LiquidTransition() {
 
   const veilIn = () => {
     if (prefersReduced()) return Promise.resolve();
+    setSplash(1);
     svgRef.current?.classList.add('is-active');
     getLenis()?.stop();
     return playVeil(rise, aRef.current, bRef.current, 0.62);
   };
   const veilOut = () => {
+    setSplash(0);
     getLenis()?.start();
     if (prefersReduced()) {
       svgRef.current?.classList.remove('is-active');

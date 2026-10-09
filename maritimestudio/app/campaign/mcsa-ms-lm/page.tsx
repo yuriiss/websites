@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 
 export const metadata: Metadata = {
   title: "Maritime Cyber Security Awareness — Online CPD Course with 5 Simulators | Maritime.Studio",
@@ -12,7 +11,6 @@ export default function McsaMsLmPage() {
   return (
     <>
       <section className="hero" aria-labelledby="mcsa-title" style={{ minHeight: 'auto' }}>
-        <Ocean intensity={0.95} />
         <div className="container">
           <div className="hero-copy" style={{ maxWidth: '900px' }}>
             <span className="eyebrow eyebrow--warm">Online CPD Course · 5 Interactive Simulators · CPD Certificate Included</span>

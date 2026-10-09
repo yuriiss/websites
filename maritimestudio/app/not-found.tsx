@@ -1,11 +1,9 @@
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 
 export default function NotFound() {
   return (
     <>
       <section className="page-hero page-hero--center" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-        <Ocean soft intensity={0.8} />
         <div className="container">
           <span className="eyebrow">404 · Off course</span>
           <h1 className="h1"><span className="split-line"><span>This page has drifted</span></span><span className="split-line"><span><em>out of range</em></span></span></h1>

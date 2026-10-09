@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 import { ValidatedForm } from '@/components/ValidatedForm';
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export default function McsaTraining2026Page() {
   return (
     <>
       <section className="hero" aria-labelledby="t26-title" style={{ minHeight: 'auto' }}>
-        <Ocean intensity={0.95} />
         <div className="container">
           <div className="hero-copy" style={{ maxWidth: '940px' }}>
             <span className="eyebrow eyebrow--warm">Comprehensive CPD Programme · 2026</span>

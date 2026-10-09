@@ -83,12 +83,6 @@ function mountPage(main: HTMLElement): () => void {
         scrollTrigger: { trigger: el.closest('section') || el, start: 'top top', end: 'bottom top', scrub: true },
       });
     });
-    gsap.utils.toArray<HTMLElement>('.hero .ocean, .page-hero .ocean', main).forEach((sea) => {
-      gsap.to(sea, {
-        yPercent: 18, scale: 1.08, ease: 'none',
-        scrollTrigger: { trigger: sea.parentElement, start: 'top top', end: 'bottom top', scrub: true },
-      });
-    });
   }, main);
 
   // Instrument panel tilts with the pointer (quickTo keeps it fluid).

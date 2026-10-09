@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { TermSearch } from '@/components/GlossarySearch';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 import { CATEGORIES } from '@/lib/glossary';
 import { GlossaryCta } from '../GlossaryCta';
 
@@ -29,7 +28,6 @@ export default async function GlossaryCategory({ params }: { params: Promise<Par
   return (
     <>
       <section className="page-hero">
-        <Ocean soft intensity={0.8} />
         <div className="container">
           <a className="link-arrow link-back" href="/glossary/">
             <Icon name="arrow" />

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 
 export const metadata: Metadata = {
   title: "Maritime AI & R&D — Prompt Engineering & AI Skills Training | Maritime.Studio",
@@ -12,7 +11,6 @@ export default function RndPage() {
   return (
     <>
       <section className="page-hero">
-        <Ocean soft />
         <div className="container">
           <span className="eyebrow">R&amp;D — Next-Generation Digital Fleet</span>
           <h1 className="h1"><span className="split-line"><span>Maritime</span></span><span className="split-line"><span><em>AI Competency</em></span></span></h1>

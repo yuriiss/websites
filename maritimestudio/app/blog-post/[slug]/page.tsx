@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 import { ARTICLES } from '@/lib/site';
 import { LearnMoreCta } from '@/components/ResourcesParts';
 
@@ -27,7 +26,6 @@ export default async function ArticlePage({ params }: { params: Promise<Params> 
   return (
     <>
       <article className="page-hero">
-        <Ocean soft />
         <div className="container">
           <div className="article">
             <a className="link-arrow link-back" href="/resources/">

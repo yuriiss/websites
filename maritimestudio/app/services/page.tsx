@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 import { ServiceIndex } from '@/components/ServiceIndex';
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export default function ServicesPage() {
   return (
     <>
       <section className="page-hero">
-        <Ocean soft />
         <div className="container">
           <span className="eyebrow">Our Services</span>
           <h1 className="h1"><span className="split-line"><span>15 Specialized</span></span><span className="split-line"><span><em>Maritime</em> Services</span></span></h1>

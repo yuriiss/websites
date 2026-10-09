@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Cta } from '@/components/Cta';
 import { FilterGrid } from '@/components/FilterGrid';
 import { Icon, type IconName } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 
 export const metadata: Metadata = {
   title: 'Maritime Digital Transformation Case Studies & Results | Maritime.Studio',
@@ -44,7 +43,6 @@ export default function CaseStudiesPage() {
   return (
     <>
       <section className="page-hero">
-        <Ocean soft />
         <div className="container">
           <span className="eyebrow">Our Work</span>
           <h1 className="h1">

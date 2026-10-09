@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 
 export const metadata: Metadata = {
   title: "About Maritime.Studio — Our Mission, Team & Values",
@@ -12,7 +11,6 @@ export default function AboutPage() {
   return (
     <>
       <section className="page-hero">
-        <Ocean soft />
         <div className="container">
           <span className="eyebrow">About Us</span>
           <h1 className="h1"><span className="split-line"><span>Where Maritime Knowledge</span></span><span className="split-line"><span>Meets <em>Digital Innovation</em></span></span></h1>

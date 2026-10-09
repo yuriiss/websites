@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Icon } from '@/components/Icon';
-import { Ocean } from '@/components/Ocean';
 
 export const metadata: Metadata = {
   title: "Maritime.Studio — Maritime EdTech & Digital Solutions",
@@ -12,9 +11,8 @@ export default function HomePage() {
   return (
     <>
       <section className="hero" aria-labelledby="hero-title">
-        <Ocean intensity={1} />
         <div className="container">
-          <div className="hero-grid">
+          <div className="hero-grid hero-grid--solo">
             <div className="hero-copy" data-parallax="0.08">
               <span className="eyebrow">Maritime Digital Solutions</span>
               <h1 className="display" id="hero-title">
@@ -29,33 +27,9 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="instrument" data-parallax="0.18" data-reveal style={{ '--d': '.35s' }} aria-label="Maritime.Studio at a glance" role="group">
-              <div className="instrument-top">
-                <span className="eyebrow eyebrow--plain" style={{ color: 'var(--foghorn)' }}>Why Maritime.Studio</span>
-                <span className="pill">Calm seas</span>
-              </div>
-              <div className="gauge" data-value="98">
-                <svg viewBox="0 0 320 178" aria-hidden="true">
-                  <defs><linearGradient id="gauge-grad" x1="0" x2="1"><stop offset="0" stopColor="#4E8EA2"/><stop offset=".7" stopColor="#7BBDE8"/><stop offset="1" stopColor="#D9B48A"/></linearGradient></defs>
-                  <path className="gauge-ticks" d="M30 162 A130 130 0 0 1 290 162" fill="none" strokeWidth="1" strokeDasharray="1 9" transform="translate(0 -14) scale(1)"/>
-                  <path className="gauge-track" d="M38 162 A122 122 0 0 1 282 162" fill="none" strokeWidth="14" strokeLinecap="round"/>
-                  <path className="gauge-fill" d="M38 162 A122 122 0 0 1 282 162" fill="none" strokeWidth="14" strokeLinecap="round"/>
-                </svg>
-                <div className="gauge-read">
-                  <div className="gauge-num"><span data-count="98">98</span><sup>%</sup></div>
-                  <div className="small faint">Client Satisfaction</div>
-                </div>
-              </div>
-              <div className="metric-grid">
-                <div className="metric"><b><span data-count="50" data-suffix="+">50+</span></b><span>Projects Delivered</span></div>
-                <div className="metric"><b><span data-count="10" data-suffix="+">10+</span></b><span>Maritime Clients</span></div>
-                <div className="metric"><b><span data-count="12" data-suffix="+">12+</span></b><span>Years Experience</span></div>
-              </div>
-            </div>
           </div>
-        </div>
+      </div>
         <a className="scroll-cue" href="#pillars">SCROLL<i></i></a>
-        <div className="wave-edge wave-edge--bottom" aria-hidden="true"><svg viewBox="0 0 2880 80" preserveAspectRatio="none"><path d="M0 46C240 10 480 82 720 46s480-36 720 0 480 36 720 0 480-36 720 0V80H0z"/></svg></div>
       </section>
 
       <section className="section section--tint" id="pillars" aria-labelledby="pillars-title">

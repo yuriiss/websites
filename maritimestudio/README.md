@@ -35,7 +35,11 @@ app/                     routes (one page.tsx per URL), layout, globals.css, sit
   blog-post/[slug]/      article pages, generated from lib/site.ts
 components/
   Header, Footer, Brand, Icon         shared chrome
-  OceanScene / Ocean                  R3F shader sea behind every hero (loaded client-side only)
+  three/Experience                    persistent React Three Fiber scene behind the whole site:
+                                      Gerstner-wave ocean to the horizon, liquid-glass drop,
+                                      glowing plankton; scroll dives the camera underwater,
+                                      page changes make the drop and sea burst
+  three/shaders.ts                    GLSL for sea, sky, drop and particles
   LiquidTransition                    GSAP wave between pages (App Router)
   SmoothScroll                        Lenis, synced to GSAP's ticker and ScrollTrigger
   Effects                             GSAP reveals, split headlines, counters, gauge, parallax,
@@ -51,7 +55,8 @@ data/     glossary.json (558 terms)
 ## Motion and accessibility
 
 - `prefers-reduced-motion` and the footer's **Calm mode** switch turn off Lenis, page waves,
-  parallax and reveal animations; the sea renders as one still frame.
+  parallax and reveal animations; the 3D scene stops animating and only follows the scroll.
+- Without WebGL the scene is skipped and the dark gradient background remains.
 - Skip link, visible focus, real buttons and labels, `aria-current`, `aria-expanded`, keyboard
   menus, focus moves to the new page's heading after each route change.
 

@@ -1,11 +1,9 @@
 import { Cta } from './Cta';
 import { Icon } from './Icon';
-import { Ocean } from './Ocean';
 
 export function ResourcesHero() {
   return (
     <section className="page-hero">
-      <Ocean soft />
       <div className="container">
         <span className="eyebrow">Resources</span>
         <h1 className="h1">

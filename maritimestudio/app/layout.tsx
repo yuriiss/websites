@@ -7,6 +7,7 @@ import { Header } from '@/components/Header';
 import { IconSprite } from '@/components/Icon';
 import { LiquidTransition } from '@/components/LiquidTransition';
 import { SmoothScroll } from '@/components/SmoothScroll';
+import { ExperienceMount } from '@/components/three/ExperienceMount';
 import { CALM_BOOT_SCRIPT } from '@/lib/motion';
 import { OG_IMAGE, SITE_URL } from '@/lib/site';
 
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <IconSprite />
+        <ExperienceMount />
         <Header />
         <main id="main" tabIndex={-1}>
           {children}
