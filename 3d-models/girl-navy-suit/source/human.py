@@ -102,6 +102,24 @@ if sl:
     print('SKIRT zmin', zmin)
     kill = [f for f in bm.faces if (lambda c: c.y > 0 and c.z < zt and abs(c.x) < half * (zt - c.z) / (zt - zmin) + 0.002)(f.calc_center_median())]
     bmesh.ops.delete(bm, geom=kill, context='FACES'); bm.to_mesh(o.data); bm.free(); print('SLIT', len(kill))
+hf = P.get('hair_flatten')
+if hf:
+    from mathutils.kdtree import KDTree
+    zfrom, maxoff = hf
+    h = [o for o in bpy.data.objects if 'girl_hair' in o.name][0]
+    bmv = body.data.vertices
+    gi_ = {g.name: g.index for g in body.vertex_groups}
+    kd = KDTree(len(bmv))
+    for v in bmv:
+        if v.co.z > zfrom - 0.05 and any(g.group == gi_['body'] and g.weight > 0.5 for g in v.groups): kd.insert(v.co, v.index)
+    kd.balance()
+    for v in h.data.vertices:
+        if v.co.z > zfrom:
+            co_, idx, dist = kd.find(v.co)
+            if dist > maxoff:
+                t = min(1.0, (v.co.z - zfrom) / 0.04)
+                target = co_ + (v.co - co_).normalized() * maxoff
+                v.co = v.co.lerp(target, t)
 hw = P.get('hair_wave')
 if hw:
     zs, amp, freq, flare = hw
@@ -128,6 +146,9 @@ if sk:
             t = (ztop - v.co.z) / (ztop - zmin)
             v.co.z = ztop - (ztop - v.co.z) * k
             v.co.x *= (1 - taper * t); v.co.y = v.co.y * (1 - taper * 0.6 * t)
+    side_min = min(v.co.z for v in o.data.vertices if abs(v.co.x) > 0.07)
+    for v in o.data.vertices:
+        if v.co.z < side_min: v.co.z = side_min
 # V-neck: remove shirt faces in a V and unmask the skin there
 vn = P.get('vneck')
 if vn:

@@ -8,16 +8,19 @@ Rigged, textured 3D character built from the five reference photos (front / side
 | `girl_navy_suit.glb` | glTF binary of the same character: skinned to the rig (the photo pose is the rest pose), plain PBR materials, textures embedded (max 2048 px). Works in three.js, Unity, Unreal, Godot, etc. |
 | `render_front.png`, `render_side.png`, `render_back.png`, `render_face.png` | Cycles renders of the `.blend` |
 | `compare_photo_vs_model.png` | Photos (top) vs model (bottom) |
+| `fit_silhouette_front.png` | Body fit check: photo silhouette (red) vs model (blue), overlap grey |
+| `fit_profile.png` | Face profile fit: her photo profile (red line) on the model's head |
 | `source/` | The scripts that build the character (see below) |
 
 ## How it was made
 
-- **Body and face**: [MPFB 2](https://static.makehumancommunity.org/mpfb.html) (MakeHuman for Blender) parametric female base mesh with clean topology, shaped with face and body targets to match her proportions.
-- **Face likeness**: 478 MediaPipe face landmarks were detected on her photo and on a render of the 3D head. Her photo face (upscaled 4× with Real‑ESRGAN and restored with GFPGAN) was then warped triangle‑by‑triangle onto the head and baked into the skin texture. The rest of the body skin was colour‑matched to it. Brown eyes, lashes and brows are separate meshes.
-- **Outfit**: navy single‑breasted blazer with lapels and her gold anchor crest (taken from the photo, upscaled and baked onto the chest pocket); white blouse with an open V; knee‑length navy pencil skirt with a back slit.
-- **Hair**: long, centre‑parted, brown with lighter highlights and soft waves.
-- **Shoes**: black ankle‑strap stiletto sandals, generated from cross‑sections of the posed foot and rigged to the foot bones.
-- Height 1.71 m barefoot plus about 8 cm of heel; feet on the ground at the origin; facing −Y in Blender (+Z forward in glTF).
+- **Base**: [MPFB 2](https://static.makehumancommunity.org/mpfb.html) (MakeHuman for Blender), a parametric female mesh with clean topology and a 163‑bone rig.
+- **Face shape, fitted to her photos**: the model's 478 MediaPipe facial landmarks were mapped onto the mesh, and least squares solved about 190 MakeHuman face controls so that the landmarks match the front photo (2.7 mm RMS). Her side‑photo profile, from forehead to under the chin, was matched at the same time (1 mm RMS), and the crown height was constrained to her eye‑to‑chin ratio.
+- **Body, fitted to her silhouettes**: width and depth profiles of the front and side photos were compared with renders of the model (normalised eye‑to‑floor), and hips, waist, shoulders, arm position, stance and skirt length were adjusted until they matched (see `fit_silhouette_front.png`).
+- **Face texture**: her photo face (upscaled 4× with Real‑ESRGAN and restored with GFPGAN) was warped onto the fitted head landmark‑by‑landmark and blended into the skin. The rest of the body skin was colour‑matched to it.
+- **Hair**: her real hair colour and waves were projected from the front, back and side photos onto the hair mesh, using a hair‑only segmentation mask per photo.
+- **Outfit**: navy blazer with lapels and her gold anchor crest (from the photo, on the chest pocket), white V‑neck blouse, knee‑length navy pencil skirt with back slit, black ankle‑strap stilettos.
+- Feet on the ground at the origin; facing −Y in Blender (+Z forward in glTF).
 
 ## Re-posing
 
@@ -31,4 +34,4 @@ The `.glb` has the same skeleton, so it can be retargeted or animated (for examp
 
 ## Rebuilding
 
-`source/human.py` builds the character from `source/character.json` using MPFB 2.0.18 in Blender 4.2. The face and crest projection, sandals and export are done by the other scripts in `source/`. They expect the MakeHuman asset packs (system assets, skins01, hair01, suits02/03) to be installed in MPFB's data folder.
+`source/human.py` builds the character from `source/character.json` (MPFB 2.0.18, Blender 4.2). The face fitting is done by `fit_face_blender.py` and `solve_face2.py`, the body fitting by `silh.py`, `runs.py` and `overlay.py`, and the texture projections by `project_face.py`, `compose_face.py` and `hair_project.py`. `export.py` writes the .blend and .glb. They expect the MakeHuman asset packs (system assets, skins01, hair01, suits02/03) to be installed in MPFB's data folder.

@@ -22,10 +22,16 @@ def shot(name,target,dist,lens,res,ang=0):
     cam.rotation_euler=(math.pi/2,0,a); cam.data.lens=lens
     sc.render.resolution_x,sc.render.resolution_y=res; sc.render.filepath=f'{prefix}_{name}.png'
     bpy.ops.render.render(write_still=True)
-face=Vector((0,0,top-0.13))
+eyeo=[o for o in sc.objects if 'high-poly' in o.name]
+if eyeo:
+    dg2=bpy.context.evaluated_depsgraph_get(); ev=eyeo[0].evaluated_get(dg2); mm=ev.to_mesh()
+    ez=sum((eyeo[0].matrix_world@v.co).z for v in mm.vertices)/len(mm.vertices); ev.to_mesh_clear()
+    face=Vector((0,0,ez-0.035))
+else:
+    face=Vector((0,0,top-0.13))
 for a in (argv[2].split(',') if len(argv)>2 else ['face','body']):
     if a=='face': shot('face',face,0.9,85,(640,800))
-    if a=='closeup': shot('closeup',face+Vector((0,0,0.02)),0.9,150,(800,800))
+    if a=='closeup': shot('closeup',face,0.9,135,(800,800))
     if a=='chest': shot('chest',Vector((0,0,top-0.35)),1.6,85,(700,700))
     if a=='feet': shot('feet',Vector((0,0,0.13)),1.4,85,(700,500),70)
     if a=='face3q': shot('face3q',face,0.9,85,(640,800),35)
