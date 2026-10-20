@@ -91,7 +91,8 @@ if hs:
     h = [o for o in bpy.data.objects if 'girl_hair' in o.name][0]
     for v in h.data.vertices:
         if v.co.z < zs0:
-            kk = k0 if v.co.y > -0.04 else 1.0 + (k0 - 1.0) * 0.25
+            f_ = min(1.0, max(0.0, (v.co.y + 0.08) / 0.07)); f_ = f_ * f_ * (3 - 2 * f_)
+            kk = 1.0 + (k0 - 1.0) * (0.25 + 0.75 * f_)
             v.co.z = zs0 - (zs0 - v.co.z) * kk
 sl = P.get('skirt_slit')
 if sl:
@@ -132,7 +133,7 @@ if hw:
             r = Vector((v.co.x, v.co.y - cy, 0))
             if r.length < 1e-6: continue
             r.normalize()
-            ph = 2.5 * math.atan2(v.co.y - cy, v.co.x)
+            ph = 3.0 * math.atan2(v.co.y - cy, v.co.x)
             off = amp * (t ** 0.7) * math.sin(freq * (zs - v.co.z) + ph) + flare * t * t
             v.co += r * off
 # lengthen skirt: stretch everything below the hip downward

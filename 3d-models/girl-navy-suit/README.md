@@ -8,6 +8,8 @@ Rigged, textured 3D character built from the five reference photos (front / side
 | `girl_navy_suit.glb` | glTF binary of the same character: skinned to the rig (the photo pose is the rest pose), plain PBR materials, textures embedded (max 2048 px). Works in three.js, Unity, Unreal, Godot, etc. |
 | `render_front.png`, `render_side.png`, `render_back.png`, `render_face.png` | Cycles renders of the `.blend` |
 | `compare_photo_vs_model.png` | Photos (top) vs model (bottom) |
+| `compare_face.png` | Her photo vs the GLB face in a web viewer |
+| `webviewer_check.png` | The `.glb` rendered by `<model-viewer>` (three.js) in Chromium: front, face, side, back |
 | `fit_silhouette_front.png` | Body fit check: photo silhouette (red) vs model (blue), overlap grey |
 | `fit_profile.png` | Face profile fit: her photo profile (red line) on the model's head |
 | `source/` | The scripts that build the character (see below) |
@@ -18,7 +20,9 @@ Rigged, textured 3D character built from the five reference photos (front / side
 - **Face shape, fitted to her photos**: the model's 478 MediaPipe facial landmarks were mapped onto the mesh, and least squares solved about 190 MakeHuman face controls so that the landmarks match the front photo (2.7 mm RMS). Her side‑photo profile, from forehead to under the chin, was matched at the same time (1 mm RMS), and the crown height was constrained to her eye‑to‑chin ratio.
 - **Body, fitted to her silhouettes**: width and depth profiles of the front and side photos were compared with renders of the model (normalised eye‑to‑floor), and hips, waist, shoulders, arm position, stance and skirt length were adjusted until they matched (see `fit_silhouette_front.png`).
 - **Face texture**: her photo face (upscaled 4× with Real‑ESRGAN and restored with GFPGAN) was warped onto the fitted head landmark‑by‑landmark and blended into the skin. The rest of the body skin was colour‑matched to it.
-- **Hair**: her real hair colour and waves were projected from the front, back and side photos onto the hair mesh, using a hair‑only segmentation mask per photo.
+- **Eyes**: her real eyes from the photo are projected onto the eyeball meshes (landmark‑warped), so the iris, whites and lids match the photo.
+- **glTF materials**: skin, clothes and eyes are exported OPAQUE; hair and lashes use alpha MASK, so web viewers sort them correctly.
+- **Hair**: her hair colour and waves were projected from the front, back and side photos onto the hair mesh, using a hair‑only segmentation mask per photo.
 - **Outfit**: navy blazer with lapels and her gold anchor crest (from the photo, on the chest pocket), white V‑neck blouse, knee‑length navy pencil skirt with back slit, black ankle‑strap stilettos.
 - Feet on the ground at the origin; facing −Y in Blender (+Z forward in glTF).
 

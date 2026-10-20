@@ -88,7 +88,6 @@ for ob in [o for o in sc.objects if o.type == 'MESH']:
         if bs is None:  # procedural eyes
             t = N.new('ShaderNodeTexImage'); t.image = bpy.data.images.load(eye_tex); t.image.pack()
             L.new(t.outputs['Color'], nb.inputs['Base Color']); nb.inputs['Roughness'].default_value = 0.15
-            L.new(t.outputs['Alpha'], nb.inputs['Alpha']); new.blend_method = 'HASHED'
             slot.material = new; continue
         nb.inputs['Roughness'].default_value = bs.inputs['Roughness'].default_value
         nb.inputs['Metallic'].default_value = bs.inputs['Metallic'].default_value
@@ -106,8 +105,11 @@ for ob in [o for o in sc.objects if o.type == 'MESH']:
                 im.pack() if not im.packed_file else None
             t = N.new('ShaderNodeTexImage'); t.image = im
             L.new(t.outputs['Color'], nb.inputs['Base Color'])
-            if uses_alpha:
-                L.new(t.outputs['Alpha'], nb.inputs['Alpha']); new.blend_method = 'HASHED'
+            if uses_alpha and any(k in ob.name for k in ('hair', 'eyelash', 'eyebrow')):
+                # alpha cut-out (glTF MASK): Round(alpha) is what the exporter recognises
+                rnd = N.new('ShaderNodeMath'); rnd.operation = 'ROUND'
+                L.new(t.outputs['Alpha'], rnd.inputs[0]); L.new(rnd.outputs[0], nb.inputs['Alpha'])
+                new.blend_method = 'CLIP'
         else:
             nb.inputs['Base Color'].default_value = bs.inputs['Base Color'].default_value
         nm = next((n for n in nt.nodes if n.type == 'NORMAL_MAP'), None)
